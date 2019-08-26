@@ -3,14 +3,29 @@ function player(name) {
   this.score = 0;
 }
 
+function cpu() {
+  this.score = 0,
+  this.turns = 0;
+}
+
+cpu.prototype.myTurn = function() {
+  var numberBuffer = 0;
+  var temp = 0;
+  while (this.count < 2) {
+    numberBuffer = roll();
+    if(numberBuffer != 1) {
+      temp += numberBuffer;
+      this.count++
+    }
+    if(count === 2) {
+      this.score += temp;
+    }
+  }
+}
+
 function roll() {
   return Math.ceil(Math.random()*6);
 }
-
-player.prototype.hold = function(tempScore){
-  this.totalScore += tempScore;
-}
-
 
 $(function() {
   var p1 = new player("p1");
