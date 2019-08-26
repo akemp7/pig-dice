@@ -28,6 +28,11 @@ function roll() {
 }
 
 $(function() {
+  var numPlayers = prompt("How man players 1 or 2?");
+  if(parseInt(numPlayers)  !== 1) {
+    alert("It's a 2 player game");
+  }
+
   var p1 = new player("p1");
   var p2 = new player("p2");
   var players = [p1, p2];
@@ -76,4 +81,8 @@ function switchPlayer(players, currentPlayer) {
   }
 
   return currentPlayer;
+}
+
+function computerPlayer() {
+
 }
