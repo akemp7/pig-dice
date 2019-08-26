@@ -1,16 +1,14 @@
-function player (name){
+function player(name) {
   this.name = name,
-  this.tempScore = 0,
-  this.totalScore = 0
+  this.score = 0;
 }
 
-player.prototype.roll = function(){
-  var num = Math.ceil(Math.random()*6);
-  return num;
+function roll() {
+  return Math.ceil(Math.random()*6);
 }
 
-player.prototype.hold = function(){
-  this.totalScore += this.tempScore;
+player.prototype.hold = function(tempScore){
+  this.totalScore += tempScore;
 }
 
 
@@ -23,39 +21,41 @@ $(function() {
   var currentPlayer = players[turn];
   var numberBuffer = 0;
 
-  console.log(currentPlayer + " " + turn)
+  currentPlayer = switchPlayer(players, currentPlayer);
+  console.log(currentPlayer);
 
-  if(currentPlayer === p1) {
-    //player1
-    $("#p1-roll").show();
-    $("#p1-hold").show();
-    $("#p2-roll").hide();
-    $("#p2-hold").hide();
-
-  } else {
-    //player2
-    $("#p1-roll").hide();
-    $("#p1-hold").hide();
-    $("#p2-roll").show();
-    $("#p2-hold").show();
-  }
-
-$("#" + currentPlayer.name + "-roll").click(function() {
-      numberBuffer = (currentPlayer.roll());
-      if(numberBuffer === 1) {
-        temp = 0;
-        $("#" + currentPlayer.name + "-temp p").text("");
-       if(currentPlayer === p1) {
-        currentPlayer = p2;
-        } else {
-          currentPlayer = p1;
-        }
-      } else {
-        temp += numberBuffer;
-      }
-      $("#" + currentPlayer.name + "-temp p").text(temp);
+  $("#roll").click(function(){
+    numberBuffer = roll();
+    if(numberBuffer === 1){
+      temp = 0;
+      currentPlayer = switchPlayer(players, currentPlayer);
+      $("#temp p").text("");
+    } else {
+      temp += numberBuffer;
+      $("#temp p").text(temp);
+    }
   });
 
-
+  $("#hold").click(function () {
+    currentPlayer.score += temp;
+    $("#temp p").text("");
+    temp = 0;
+    $("#" + currentPlayer.name + "-total p").text(currentPlayer.score);
+    currentPlayer = switchPlayer(players, currentPlayer);
+  });
 
 });
+
+function switchPlayer(players, currentPlayer) {
+  if(currentPlayer === players[0]) {
+    currentPlayer = players[1];
+    $(".player2").addClass("turn");
+    $(".player1").removeClass("turn");
+  } else {
+    currentPlayer = players[0];
+    $(".player1").addClass("turn");
+    $(".player2").removeClass("turn");
+  }
+
+  return currentPlayer;
+}
