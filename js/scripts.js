@@ -29,7 +29,7 @@ $(function() {
     if(numberBuffer === 1){
       temp = 0;
       currentPlayer = switchPlayer(players, currentPlayer);
-      $("#temp p").text("");
+      $("#temp p").text("0");
     } else {
       temp += numberBuffer;
       $("#temp p").text(temp);
@@ -38,8 +38,11 @@ $(function() {
 
   $("#hold").click(function () {
     currentPlayer.score += temp;
-    $("#temp p").text("");
+    $("#temp p").text("0");
     temp = 0;
+    if(currentPlayer.score >= 100){
+      alert(currentPlayer.name + " wins!")
+    }
     $("#" + currentPlayer.name + "-total p").text(currentPlayer.score);
     currentPlayer = switchPlayer(players, currentPlayer);
   });
