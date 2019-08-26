@@ -15,17 +15,23 @@ player.prototype.hold = function(){
 
 
 $(function() {
-  var p1 = new player(prompt("Enter your name P1"));
-  var p2 = new player(prompt("Enter your name P2"));
-  var p1Temp = 0;
-  var turn = Math.random();
+  var p1 = new player("p1");
+  var p2 = new player("p2");
+  var players = [p1, p2];
+  var temp = 0;
+  var turn = Math.round(Math.random());
+  var currentPlayer = players[turn];
+  var numberBuffer = 0;
 
-  if(turn < 0.5) {
+  console.log(currentPlayer + " " + turn)
+
+  if(currentPlayer === p1) {
     //player1
     $("#p1-roll").show();
     $("#p1-hold").show();
     $("#p2-roll").hide();
     $("#p2-hold").hide();
+
   } else {
     //player2
     $("#p1-roll").hide();
@@ -34,10 +40,20 @@ $(function() {
     $("#p2-hold").show();
   }
 
-
-$("#p1-roll").click(function() {
-      p1Temp += (p1.roll());
-      $("#p1-temp").text(p1Temp);
+$("#" + currentPlayer.name + "-roll").click(function() {
+      numberBuffer = (currentPlayer.roll());
+      if(numberBuffer === 1) {
+        temp = 0;
+        $("#" + currentPlayer.name + "-temp p").text("");
+       if(currentPlayer === p1) {
+        currentPlayer = p2;
+        } else {
+          currentPlayer = p1;
+        }
+      } else {
+        temp += numberBuffer;
+      }
+      $("#" + currentPlayer.name + "-temp p").text(temp);
   });
 
 
